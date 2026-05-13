@@ -7,6 +7,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>⚡ SYNC INFRATECH</title>
+<link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -787,7 +788,7 @@ function getDeadlineLabel(dateStr){const d=getDaysUntil(dateStr);if(d===null)ret
 window.addEventListener('DOMContentLoaded',()=>{
   firebase.initializeApp(FIREBASE_CONFIG);
   fbDB=firebase.firestore();fbAuth=firebase.auth();
-  fbDB.enablePersistence({synchronizeTabs:true}).catch(()=>{});
+  try{firebase.firestore().settings({cache:{kind:'persistentMultipleTab'}});}catch(e){}
   fbAuth.onAuthStateChanged(async u=>{
     loader(false);
     if(u){
