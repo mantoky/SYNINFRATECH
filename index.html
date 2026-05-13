@@ -398,12 +398,12 @@ body::after{content:'';position:fixed;top:-20%;left:-10%;width:60%;height:60%;z-
       </div>
       <div class="fgroup" style="margin-bottom:20px;">
         <label><i class="fa fa-lock"></i> Senha</label>
-        <input type="password" id="lg-pass" placeholder="SyncLTE@2026" autocomplete="current-password">
+        <input type="password" id="lg-pass" placeholder="Digite sua senha" autocomplete="current-password">
       </div>
       <button class="btn btn-primary btn-full" onclick="doLogin()"><i class="fa fa-sign-in-alt"></i> Entrar no Sistema</button>
       <div class="err-msg" id="lg-err"></div>
     </div>
-    <div class="login-footer">Senha padrão: <code>SyncLTE@2026</code> &nbsp;·&nbsp; Suporte: Administrador</div>
+    <div class="login-footer">Suporte: Administrador</div>
   </div>
 </div>
 
@@ -762,7 +762,7 @@ let _agState={year:new Date().getFullYear(),month:new Date().getMonth(),eventos:
 let _selectedGroup=sessionStorage.getItem('sync_grupo')||null;
 
 /* ── PERMISSION HELPERS ───────────────────────────────── */
-function isSuperAdmin(){return CU&&['SUPER_ADMIN','ADMINISTRADOR'].includes(CU.perfil)&&(CU.perfil==='SUPER_ADMIN'||CU.nome==='Josué Gomes'||CU.nome==='Robson Carmo');}
+function isSuperAdmin(){return CU&&['SUPER_ADMIN','ADMINISTRADOR'].includes(CU.perfil)&&(CU.perfil==='SUPER_ADMIN'||CU.nome==='Josué Gomes'||CU.nome==='Robson do Carmo');}
 function isAdmin(){return CU&&['SUPER_ADMIN','GROUP_ADMIN','SUBGROUP_ADMIN','ADMINISTRADOR'].includes(CU.perfil);}
 function isMasterOrAbove(){return CU&&['SUPER_ADMIN','GROUP_ADMIN','SUBGROUP_ADMIN','MASTER','ADMINISTRADOR'].includes(CU.perfil);}
 function canManageUsers(){return isMasterOrAbove();}
@@ -797,7 +797,7 @@ window.addEventListener('DOMContentLoaded',()=>{
         if(doc.exists&&doc.data().ativo){
           CU={uid:u.uid,...doc.data()};
           // Backward compat: se ADMINISTRADOR é Josué ou Robson, tratar como SUPER_ADMIN
-          if(CU.perfil==='ADMINISTRADOR'&&(CU.nome==='Josué Gomes'||CU.nome==='Robson Carmo')){
+          if(CU.perfil==='ADMINISTRADOR'&&(CU.nome==='Josué Gomes'||CU.nome==='Robson do Carmo')){
             CU._isSuperAdmin=true;
           }
           setupDash();showPage('page-dashboard');return;
@@ -913,7 +913,7 @@ async function buildLoginSel(){
       .filter(u=>{
         // SUPER_ADMINs aparecem sempre no grupo base deles (LTE)
         const uGrupo=u.grupo||'LTE';
-        if(u.nome==='Josué Gomes'||u.nome==='Robson Carmo')return uGrupo===grupo||grupo==='LTE';
+        if(u.perfil==='SUPER_ADMIN'||u.nome==='Josué Gomes'||u.nome==='Robson do Carmo')return true;
         return uGrupo===grupo;
       })
       .sort((a,b)=>a.nome.localeCompare(b.nome,'pt-BR'));
